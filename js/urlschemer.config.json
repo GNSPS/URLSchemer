@@ -1,0 +1,13 @@
+{
+    "comgooglemaps" : "com.google.android.apps.maps",
+    "dailymotion" : "com.dailymotion.dailymotion",
+    "twitterfon" : "com.echofon",
+    "twitterfonpro" : "com.echofonpro2",
+    "fb" : "com.facebook.katana",
+    "googlechrome" : "com.android.chrome",
+    "comgoogleearth" : "com.google.earth",
+    "imdb" : "com.imdb.mobile",
+    "ohttp" : "com.opera.browser",
+    "pinit12" : "com.pinterest",
+    "twitter" : "com.twitter.android"
+}
