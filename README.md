@@ -2,17 +2,16 @@
 
 `Version 0.0.1`
 
-An Angular.js module to open external apps' urls on the device for Cordova / PhoneGap apps by GNSPS
+An Angular.js module to open installed external apps on the device for Cordova / PhoneGap apps by GNSPS
 
 1. [Description](https://github.com/GNSPS/URLSchemer#1-description)
 2. [Requirements](https://github.com/GNSPS/URLSchemer#2-requirements)
 3. [Installation](https://github.com/GNSPS/URLSchemer#3-installation)
 4. [Usage](https://github.com/GNSPS/URLSchemer#4-usage)
-5. [License](https://github.com/GNSPS/URLSchemer#5-license)
 
 ## 1. Description
 
-The module checks if the app is installed on the device and opens the native app with the URL scheme provided if it is, otherwise just opens another provided http URL.
+The module checks if the app is installed on the device and opens the native app with the URL scheme provided, if the app is not installed it just opens another provided URL.
 It always opens an external app. Even if the wanted app is not installed on the device it opens the provided fallback on the system's default browser.
 
 It works with just an URL Scheme (e.g. "fb://") on both platforms, iOS and Android.
@@ -41,10 +40,10 @@ $ cordova plugin add https://git-wip-us.apache.org/repos/asf/cordova-plugin-inap
 Just copy the files urlschemer.js and urlschemer.config.json to a `/js` folder inside the `www` root of your Cordova / PhoneGap project.
 
 Reference the `urlschemer.js` file in your `index.html`:
-> <script src="js/urlschemer.js"></script>
+`<script src="js/urlschemer.js"></script>`
 
 And inject it into your app module:
-> angular.module('myApp', ['URLSchemer']);
+`angular.module('myApp', ['URLSchemer']);`
 
 --
 
@@ -74,10 +73,12 @@ Note: In case there is no fallback URL provided the link will only be opened if 
 
 --
 
-The method's promise resolves whenever the URL scheme was recognized and rejects otherwise and always returns an object with the following format:
+The method's promise resolves whenever the URL scheme was recognized and rejects otherwise and always returns an object with the following properties:
 
 `retObj.openedLink` : string with the link that was open, if no link was open it is undefined (String/Undefined)
+
 `retObj.appInstalled` : boolean to check if the app is available in the device, if no check was made it is undefined (Boolean/Undefined)
+
 `retObj.diag` : string with the action performed, either error or success messages (to be used while developing or for log outputting) (String)
 
 --
@@ -122,25 +123,3 @@ $urlschemer.getAndroidAppId("fb://event?id=12345")
 ### Add More App Schemes
 
 In the config file there are already the major apps' URL schemes, however feel free to add more app schemes to the `urlschemer.config.json` file for URLSchemer to recognize them.
-
-## 5. License
-
-[The MIT License (MIT)](http://www.opensource.org/licenses/mit-license.html)
-
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
-
-The above copyright notice and this permission notice shall be included in
-all copies or substantial portions of the Software.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
-THE SOFTWARE.
