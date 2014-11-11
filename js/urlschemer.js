@@ -1,6 +1,6 @@
 angular.module("URLSchemer", [])
 
-.factory("$urlschemer", ["$q", "$window", "$timeout", "$http", function($q, $window, $timeout, $http){
+.factory("$urlschemer", ["$q", "$window", "$http", function($q, $window, $http){
     var schemes = [];
     
     $http.get("js/urlschemer.config.json")
@@ -35,9 +35,7 @@ angular.module("URLSchemer", [])
             if(urlArray[0] in schemes){
                 var androidAppId = schemes[urlArray[0]];
             }else{
-                $timeout(function(){ //wait for DOM to be ready
-                    $window.open(encodeURI(url), "_system", "location=yes");
-                });
+                $window.open(encodeURI(url), "_system", "location=yes");
                 
                 retObj = {
                         "openedLink": url,
@@ -57,9 +55,7 @@ angular.module("URLSchemer", [])
                 appAvailability.check(
                     androidAppId, //android package
                     function(){
-                        $timeout(function(){ //wait for DOM to be ready
-                            $window.open(encodeURI(url), "_system", "location=yes");
-                        });
+                        $window.open(encodeURI(url), "_system", "location=yes");
                         
                         retObj = {
                                 "openedLink": url,
@@ -71,9 +67,7 @@ angular.module("URLSchemer", [])
                     },
                     function(){
                         if(fallbackUrl){
-                            $timeout(function(){ //wait for DOM to be ready
-                                $window.open(encodeURI(fallbackUrl), "_system", "location=yes");
-                            });
+                            $window.open(encodeURI(fallbackUrl), "_system", "location=yes");
                         }
                         
                         retObj = {
@@ -89,9 +83,7 @@ angular.module("URLSchemer", [])
                 appAvailability.check(
                     urlArray[0]+"://", //app url scheme (for ios)
                     function(){
-                        $timeout(function(){ //wait for DOM to be ready
-                            $window.open(encodeURI(url), "_system", "location=yes");
-                        });
+                        $window.open(encodeURI(url), "_system", "location=yes");
                         
                         retObj = {
                                 "openedLink": url,
@@ -103,9 +95,7 @@ angular.module("URLSchemer", [])
                     },
                     function(){
                         if(fallbackUrl){
-                            $timeout(function(){ //wait for DOM to be ready
-                                $window.open(encodeURI(fallbackUrl), "_system", "location=yes");
-                            });
+                            $window.open(encodeURI(fallbackUrl), "_system", "location=yes");
                         }
                         
                         retObj = {
@@ -122,9 +112,16 @@ angular.module("URLSchemer", [])
             return d.promise;
         },
         getAndroidAppId: function(url){
+            var d = $q.defer();
             var urlArray = url.split(":");
             
-            return (urlArray[0] in schemes) ? schemes[urlArray[0]] : undefined;
+            if(urlArray[0] in schemes){
+                d.resolve(schemes[urlArray[0]]);
+            }else{
+                d.reject();
+            }
+            
+            return d.promise;
         }
     }
 }]);
