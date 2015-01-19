@@ -1,5 +1,7 @@
 # URLSchemer for iOS and Android
 
+[![Gitter](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/GNSPS/URLSchemer?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+
 `Version 0.0.1`
 
 An Angular.js module to open installed external apps on the device for Cordova / PhoneGap apps by GNSPS
