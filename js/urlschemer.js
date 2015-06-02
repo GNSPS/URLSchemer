@@ -51,62 +51,76 @@ angular.module("URLSchemer", [])
             var ua = navigator.userAgent.toLowerCase();
             var isAndroid = ua.indexOf("android") > -1; //&& ua.indexOf("mobile");
 
-            if(isAndroid) {
-                appAvailability.check(
-                    androidAppId, //android package
-                    function(){
-                        $window.open(encodeURI(url), "_system", "location=yes");
-                        
-                        retObj = {
-                                "openedLink": url,
-                                "appInstalled": true,
-                                "diag": "App installed. Opening app url as provided."
-                        }
-                        
-                        d.resolve(retObj);
-                    },
-                    function(){
-                        if(fallbackUrl){
-                            $window.open(encodeURI(fallbackUrl), "_system", "location=yes");
-                        }
-                        
-                        retObj = {
-                                "openedLink": (fallbackUrl) ? fallbackUrl : undefined,
-                                "appInstalled": false,
-                                "diag": "App not installed. Opening fallback url."
-                        }
-                        
-                        d.resolve(retObj);
-                    }
-                );
+            if (typeof appAvailability === 'undefined') {
+                if(fallbackUrl){
+                    $window.open(encodeURI(fallbackUrl), "_system", "location=yes");
+                }
+                
+                retObj = {
+                        "openedLink": (fallbackUrl) ? fallbackUrl : undefined,
+                        "appInstalled": undefined,
+                        "diag": "AppAvailability plugin not available. Trying to open fallback url as we are probably in the browser testing! ;)"
+                }
+
+                d.resolve(retObj);
             }else{
-                appAvailability.check(
-                    urlArray[0]+"://", //app url scheme (for ios)
-                    function(){
-                        $window.open(encodeURI(url), "_system", "location=yes");
-                        
-                        retObj = {
-                                "openedLink": url,
-                                "appInstalled": true,
-                                "diag": "App installed. Opening app url as provided."
+                if(isAndroid) {
+                    appAvailability.check(
+                        androidAppId, //android package
+                        function(){
+                            $window.open(encodeURI(url), "_system", "location=yes");
+
+                            retObj = {
+                                    "openedLink": url,
+                                    "appInstalled": true,
+                                    "diag": "App installed. Opening app url as provided."
+                            }
+
+                            d.resolve(retObj);
+                        },
+                        function(){
+                            if(fallbackUrl){
+                                $window.open(encodeURI(fallbackUrl), "_system", "location=yes");
+                            }
+
+                            retObj = {
+                                    "openedLink": (fallbackUrl) ? fallbackUrl : undefined,
+                                    "appInstalled": false,
+                                    "diag": "App not installed. Opening fallback url."
+                            }
+
+                            d.resolve(retObj);
                         }
-                        
-                        d.resolve(retObj);
-                    },
-                    function(){
-                        if(fallbackUrl){
-                            $window.open(encodeURI(fallbackUrl), "_system", "location=yes");
+                    );
+                }else{
+                    appAvailability.check(
+                        urlArray[0]+"://", //app url scheme (for ios)
+                        function(){
+                            $window.open(encodeURI(url), "_system", "location=yes");
+
+                            retObj = {
+                                    "openedLink": url,
+                                    "appInstalled": true,
+                                    "diag": "App installed. Opening app url as provided."
+                            }
+
+                            d.resolve(retObj);
+                        },
+                        function(){
+                            if(fallbackUrl){
+                                $window.open(encodeURI(fallbackUrl), "_system", "location=yes");
+                            }
+
+                            retObj = {
+                                    "openedLink": (fallbackUrl) ? fallbackUrl : undefined,
+                                    "appInstalled": false,
+                                    "diag": "App not installed. Opening fallback url."
+                            }
+
+                            d.resolve(retObj);
                         }
-                        
-                        retObj = {
-                                "openedLink": (fallbackUrl) ? fallbackUrl : undefined,
-                                "appInstalled": false,
-                                "diag": "App not installed. Opening fallback url."
-                        }
-                        
-                        d.resolve(retObj);
-                    }
-                );
+                    );
+                }
             }
             
             return d.promise;
